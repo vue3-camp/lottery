@@ -603,13 +603,17 @@
         clearInterval(timer);
         timer = null;
 
+        const winnerIndex = Math.floor(Math.random() * players.length);
+        const stepsToWinner = (winnerIndex - idx + players.length) % players.length;
+        let remaining = players.length * 2 + stepsToWinner;
         let currentSpeed = speed;
 
         const slowLoop = () => {
             tick();
+            remaining -= 1;
             currentSpeed = Math.min(maxSpeed, currentSpeed + slowDownStep + Math.random() * 10);
 
-            if (currentSpeed >= maxSpeed) {
+            if (remaining <= 0) {
                 finalize();
                 return;
             }
